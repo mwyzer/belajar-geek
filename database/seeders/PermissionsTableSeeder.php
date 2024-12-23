@@ -44,7 +44,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'warnas.edit', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'warnas.delete', 'guard_name' => 'web']);
 
-        // Permission Warnas
+        // Permission Locations
         Permission::firstOrCreate(['name' => 'locations.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'locations.create', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'locations.edit', 'guard_name' => 'web']);

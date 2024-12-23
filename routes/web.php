@@ -64,6 +64,10 @@ Route::prefix('account')->group(function() {
         //route resource locations
         Route::resource('/locations', \App\Http\Controllers\Account\LocationController::class, ['as' => 'account'])
         ->middleware('permission:locations.index|locations.create|locations.edit');
+
+        //route resource categories
+        Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
+        ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
         
     });
     
