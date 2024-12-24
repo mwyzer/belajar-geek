@@ -33,14 +33,14 @@ Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'store
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
 
 //prefix "account"
-Route::prefix('account')->group(function() {
-    
+Route::prefix('account')->group(function () {
+
     //middleware "auth"
     Route::group(['middleware' => ['auth']], function () {
-        
+
         //route dashboard
         Route::get('/dashboard', App\Http\Controllers\Account\DashboardController::class)->name('account.dashboard');
-    
+
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Account\PermissionController::class)->name('account.permissions.index')
             ->middleware('permission:permissions.index');
@@ -48,7 +48,7 @@ Route::prefix('account')->group(function() {
         //route resource roles
         Route::resource('/roles', \App\Http\Controllers\Account\RoleController::class, ['as' => 'account'])
             ->middleware('permission:roles.index|roles.create|roles.edit|roles.delete');
-        
+
         //route resource users
         Route::resource('/users', \App\Http\Controllers\Account\UserController::class, ['as' => 'account'])
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
@@ -63,12 +63,18 @@ Route::prefix('account')->group(function() {
 
         //route resource locations
         Route::resource('/locations', \App\Http\Controllers\Account\LocationController::class, ['as' => 'account'])
-        ->middleware('permission:locations.index|locations.create|locations.edit');
+            ->middleware('permission:locations.index|locations.create|locations.edit');
+
+        //route resource Customers
+        Route::resource('/customers', \App\Http\Controllers\Account\CustomerController::class, ['as' => 'account'])
+            ->middleware('permission:customers.index|customers.create|customers.edit');
 
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
-        ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
-        
+            ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
+
+        //route resource providers
+        Route::resource('/providers', \App\Http\Controllers\Account\ProviderController::class, ['as' => 'account'])
+            ->middleware('permission:providers.index|providers.create|providers.edit|providers.delete');
     });
-    
 });

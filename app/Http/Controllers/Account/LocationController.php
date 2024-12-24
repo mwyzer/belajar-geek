@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Models\Location;
+use App\Models\Provider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,9 +16,12 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::when(request()->q, function ($query) {
-            $query->where('name', 'like', '%' . request()->q . '%');
-        })->latest()->paginate(10);
+        $locations = Location::with('providers')
+            ->when(request()->q, function ($query) {
+                $query->where('name', 'like', '%' . request()->q . '%');
+            })
+            ->latest()
+            ->paginate(10);
 
         $locations->appends(['q' => request()->q]);
 
@@ -40,22 +44,22 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255|unique:locations,name',
             'address' => 'required|string',
-            'image' => 'required|mimes:png,jpg|max:2048',
+            'image' => 'nullable|mimes:png,jpg|max:2048',
         ]);
 
-        // Upload image
-        $image = $request->file('image');
-        $imagePath = $image->storeAs('public/locations', $image->hashName());
+        // Upload image if provided
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('public/locations', $image->hashName());
+            $validated['image'] = $image->hashName();
+        }
 
-        // Create location
-        Location::create([
-            'name' => $request->name,
-            'address' => $request->address,
-            'image' => $image->hashName(),
-        ]);
+        // Create Location
+        $location = Location::create($validated);
 
         return redirect()->route('account.locations.index')->with('success', 'Location created successfully!');
     }
@@ -65,16 +69,16 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        return response()->json($location);
+        return Inertia::render('Account/Locations/Show', [
+            'location' => $location->load('providers'),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Location $location)
     {
-        $location = Location::findOrFail($id);
-
         return Inertia::render('Account/Locations/Edit', [
             'location' => $location,
         ]);
@@ -85,28 +89,24 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255|unique:locations,name,' . $location->id,
             'address' => 'required|string',
             'image' => 'nullable|mimes:png,jpg|max:2048',
         ]);
 
-        $data = $request->only('name', 'address');
-
         // Handle image update if provided
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($location->image && Storage::exists('public/locations/' . $location->image)) {
                 Storage::delete('public/locations/' . $location->image);
             }
 
-            // Upload new image
             $image = $request->file('image');
-            $data['image'] = $image->hashName();
+            $validated['image'] = $image->hashName();
             $image->storeAs('public/locations', $image->hashName());
         }
 
-        $location->update($data);
+        $location->update($validated);
 
         return redirect()->route('account.locations.index')->with('success', 'Location updated successfully!');
     }
@@ -116,11 +116,15 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        // Delete image if exists
+        // Delete associated image
         if ($location->image && Storage::exists('public/locations/' . $location->image)) {
             Storage::delete('public/locations/' . $location->image);
         }
 
+        // Delete related providers
+        $location->providers()->delete();
+
+        // Delete location
         $location->delete();
 
         return redirect()->route('account.locations.index')->with('success', 'Location deleted successfully!');

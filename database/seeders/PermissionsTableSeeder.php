@@ -32,29 +32,30 @@ class PermissionsTableSeeder extends Seeder
         // Permission Permissions
         Permission::firstOrCreate(['name' => 'permissions.index', 'guard_name' => 'web']);
 
-        // Permission Colors
-        Permission::firstOrCreate(['name' => 'colors.index', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'colors.create', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'colors.edit', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'colors.delete', 'guard_name' => 'web']);
-
-        // Permission Warnas
-        Permission::firstOrCreate(['name' => 'warnas.index', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'warnas.create', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'warnas.edit', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'warnas.delete', 'guard_name' => 'web']);
-
         // Permission Locations
         Permission::firstOrCreate(['name' => 'locations.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'locations.create', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'locations.edit', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'locations.delete', 'guard_name' => 'web']);
 
+        // Permission Providers
+        Permission::firstOrCreate(['name' => 'providers.index', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'providers.create', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'providers.edit', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'providers.delete', 'guard_name' => 'web']);
+
         // Permission Categories
         Permission::firstOrCreate(['name' => 'categories.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'categories.create', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'categories.edit', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'categories.delete', 'guard_name' => 'web']);
+
+        // Permission Customers
+        Permission::firstOrCreate(['name' => 'customers.index', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'customers.create', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'customers.show', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'customers.edit', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'customers.delete', 'guard_name' => 'web']);
 
         // Permission Products
         Permission::firstOrCreate(['name' => 'products.index', 'guard_name' => 'web']);
