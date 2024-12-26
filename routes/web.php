@@ -147,3 +147,32 @@ Route::post('/carts', [\App\Http\Controllers\Web\CartController::class, 'store']
  */
 Route::delete('/carts/{id}', [\App\Http\Controllers\Web\CartController::class, 'destroy'])->name('web.carts.destroy')
     ->middleware('auth');
+
+/**
+ * route checkouts index
+ */
+Route::get('/checkouts', [\App\Http\Controllers\Web\CheckoutController::class, 'index'])->name('web.checkouts.index')
+    ->middleware('auth');
+
+/**
+ * route checkouts get cities by province ID
+ */
+Route::get('/checkouts/cities', [\App\Http\Controllers\Web\CheckoutController::class, 'getCities'])->name('web.checkouts.getCities')
+    ->middleware('auth');
+
+/**
+ * route checkOngkir
+ */
+Route::post('/checkouts/checkOngkir', [\App\Http\Controllers\Web\CheckoutController::class, 'checkOngkir'])->name('web.checkouts.checkOngkir')
+    ->middleware('auth');
+
+/**
+ * route checkout store
+ */
+Route::post('/checkouts', [\App\Http\Controllers\Web\CheckoutController::class, 'store'])->name('web.checkouts.store')
+    ->middleware('auth');
+
+/**
+ * route callback
+ */
+Route::post('/callback', \App\Http\Controllers\Web\CallbackController::class)->name('web.callback');

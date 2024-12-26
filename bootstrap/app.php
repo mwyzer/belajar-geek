@@ -20,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
         $middleware->redirectTo(guests: '/login', users: '/account/dashboard');
+
+        //except csrf tokens for callback route
+        $middleware->validateCsrfTokens(except: ['/callback']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -16,6 +16,19 @@ export default function Slider() {
                     <div className="row justify-content-center">
                         <div className="col-md-8">
                             <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+                                <div className="carousel-indicators">
+                                    {sliders.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            type="button"
+                                            data-bs-target="#carouselExampleControls"
+                                            data-bs-slide-to={index}
+                                            className={index === 0 ? "active" : ""}
+                                            aria-current={index === 0 ? "true" : "false"}
+                                            aria-label={`Slide ${index + 1}`}
+                                        ></button>
+                                    ))}
+                                </div>
                                 <div className="carousel-inner">
                                     {sliders.map((slider, index) => (
                                         <div className={`${index == 0 ? "active carousel-item" : "carousel-item"}`} key={index}>

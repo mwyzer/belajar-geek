@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
     use HasFactory;
 
     /**
-     * fillable
+     * Fillable attributes for mass assignment
      *
      * @var array
      */
@@ -23,31 +25,31 @@ class Product extends Model
     ];
 
     /**
-     * category
+     * Define the relationship with Category.
      *
-     * @return void
+     * @return BelongsTo
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
     /**
-     * productSizes
+     * Define the relationship with ProductSize.
      *
-     * @return void
+     * @return HasMany
      */
-    public function productSizes()
+    public function productSizes(): HasMany
     {
         return $this->hasMany(ProductSize::class);
     }
 
-     /**
-     * productImages
+    /**
+     * Define the relationship with ProductImage.
      *
-     * @return void
+     * @return HasMany
      */
-    public function productImages()
+    public function productImages(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }
