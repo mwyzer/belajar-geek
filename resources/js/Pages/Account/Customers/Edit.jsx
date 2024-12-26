@@ -16,13 +16,29 @@ export default function CustomerEdit() {
     const { errors, customer } = usePage().props;
 
     // State management for customer fields  
-    const [name, setName] = useState(customer.name);
-    const [whatsapp_number, setWhatsappNumber] = useState(customer.whatsapp_number);
-    const [telegram_id, setTelegramId] = useState(customer.telegram_id);
-    const [account_type, setAccountType] = useState(customer.account_type);
-    const [wa_plgn, setWaPlgn] = useState(customer.wa_plgn);
-    const [total_deposit, setTotalDeposit] = useState(customer.total_deposit);
-    const [registration_date, setRegistrationDate] = useState(customer.registration_date || '');
+    const [formData, setFormData] = useState({
+        name: customer.name || '',
+        whatsapp_number: customer.whatsapp_number || '',
+        telegram_id: customer.telegram_id || '',
+        account_type: customer.account_type || '',
+        wa_plgn: customer.wa_plgn || '',
+        total_deposit: customer.total_deposit || 0,
+        registration_date: customer.registration_date || '',
+        type: customer.type || '',
+        ktp: customer.ktp || '',
+        passport: customer.passport || '',
+        membership_level: customer.membership_level || '',
+        mitra_type: customer.mitra_type || ''
+    });
+
+    // Handle input changes  
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
     // Method "updateCustomer"  
     const updateCustomer = async (e) => {
@@ -30,13 +46,7 @@ export default function CustomerEdit() {
 
         // Sending data  
         router.post(`/account/customers/${customer.id}`, {
-            name,
-            whatsapp_number,
-            telegram_id,
-            account_type,
-            wa_plgn,
-            total_deposit,
-            registration_date,
+            ...formData,
             _method: "PUT",
         }, {
             onSuccess: () => {
@@ -67,109 +77,76 @@ export default function CustomerEdit() {
                             <div className="card-body">
                                 <form onSubmit={updateCustomer}>
 
-                                    {/* Name Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                            placeholder="Enter Customer Name"
-                                        />
-                                    </div>
-                                    {errors.name && (
-                                        <div className="alert alert-danger">{errors.name}</div>
-                                    )}
+                                    {/* Generic Fields */}
+                                    {['name', 'whatsapp_number', 'telegram_id', 'account_type', 'wa_plgn', 'total_deposit', 'registration_date'].map((field) => (
+                                        <div className="mb-3" key={field}>
+                                            <label className="form-label fw-bold">{field.replace('_', ' ').toUpperCase()}</label>
+                                            <input
+                                                type={field === 'total_deposit' ? 'number' : field === 'registration_date' ? 'date' : 'text'}
+                                                className="form-control"
+                                                name={field}
+                                                value={formData[field]}
+                                                onChange={handleChange}
+                                                placeholder={`Enter ${field.replace('_', ' ')}`}
+                                            />
+                                            {errors[field] && (
+                                                <div className="alert alert-danger">{errors[field]}</div>
+                                            )}
+                                        </div>
+                                    ))}
 
-                                    {/* WhatsApp Number Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">WhatsApp Number</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={whatsapp_number}
-                                            onChange={(e) => setWhatsappNumber(e.target.value)}
-                                            placeholder="Enter WhatsApp Number"
-                                        />
-                                    </div>
-                                    {errors.whatsapp_number && (
-                                        <div className="alert alert-danger">{errors.whatsapp_number}</div>
+                                    {/* Conditional Fields Based on Type */}
+                                    {formData.type === 'pelanggan' && (
+                                        <>
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">KTP</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="ktp"
+                                                    value={formData.ktp}
+                                                    onChange={handleChange}
+                                                    placeholder="Enter KTP"
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">Passport</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="passport"
+                                                    value={formData.passport}
+                                                    onChange={handleChange}
+                                                    placeholder="Enter Passport"
+                                                />
+                                            </div>
+                                        </>
                                     )}
-
-                                    {/* Telegram ID Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">Telegram ID</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={telegram_id}
-                                            onChange={(e) => setTelegramId(e.target.value)}
-                                            placeholder="Enter Telegram ID"
-                                        />
-                                    </div>
-                                    {errors.telegram_id && (
-                                        <div className="alert alert-danger">{errors.telegram_id}</div>
+                                    {formData.type === 'member' && (
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Membership Level</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="membership_level"
+                                                value={formData.membership_level}
+                                                onChange={handleChange}
+                                                placeholder="Enter Membership Level"
+                                            />
+                                        </div>
                                     )}
-
-                                    {/* Account Type Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">Account Type</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={account_type}
-                                            onChange={(e) => setAccountType(e.target.value)}
-                                            placeholder="Enter Account Type"
-                                        />
-                                    </div>
-                                    {errors.account_type && (
-                                        <div className="alert alert-danger">{errors.account_type}</div>
-                                    )}
-
-                                    {/* WA PLGN Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">WA PLGN</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={wa_plgn}
-                                            onChange={(e) => setWaPlgn(e.target.value)}
-                                            placeholder="Enter WA PLGN"
-                                        />
-                                    </div>
-                                    {errors.wa_plgn && (
-                                        <div className="alert alert-danger">{errors.wa_plgn}</div>
-                                    )}
-
-                                    {/* Total Deposit Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">Total Deposit</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            value={total_deposit}
-                                            onChange={(e) => setTotalDeposit(e.target.value)}
-                                            placeholder="Enter Total Deposit"
-                                        />
-                                    </div>
-                                    {errors.total_deposit && (
-                                        <div className="alert alert-danger">{errors.total_deposit}</div>
-                                    )}
-
-                                    {/* Registration Date Field */}
-                                    <div className="mb-3">
-                                        <label className="form-label fw-bold">Registration Date</label>
-                                        <input
-                                            type="date"
-                                            className="form-control"
-                                            value={registration_date}
-                                            onChange={(e) => setRegistrationDate(e.target.value)}
-                                            placeholder="Select Registration Date"
-                                        />
-                                    </div>
-                                    {errors.registration_date && (
-                                        <div className="alert alert-danger">{errors.registration_date}</div>
+                                    {formData.type === 'mitra' && (
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Mitra Type</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="mitra_type"
+                                                value={formData.mitra_type}
+                                                onChange={handleChange}
+                                                placeholder="Enter Mitra Type"
+                                            />
+                                        </div>
                                     )}
 
                                     {/* Buttons */}
@@ -177,7 +154,7 @@ export default function CustomerEdit() {
                                         <button type="submit" className="btn btn-md btn-success me-2">
                                             <i className="fa fa-save"></i> Update
                                         </button>
-                                        <button type="reset" className="btn btn-md btn-warning">
+                                        <button type="reset" className="btn btn-md btn-warning" onClick={() => setFormData({ ...customer })}>
                                             <i className="fa fa-redo"></i> Reset
                                         </button>
                                     </div>

@@ -12,7 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
+            // Regular auto-incrementing ID
             $table->id();
+
+            // Regular foreign key relationship
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+
+            $table->string('title');
+            $table->string('slug');
+            $table->text('description');
+            $table->integer('weight');
             $table->timestamps();
         });
     }

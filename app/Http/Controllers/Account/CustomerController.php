@@ -17,14 +17,20 @@ class CustomerController extends Controller
         $customers = Customer::when(request()->q, function ($query) {
                 $query->where('name', 'like', '%' . request()->q . '%');
             })
+            ->when(request()->type, function ($query) {
+                $query->where('type', request()->type);
+            })
             ->latest()
             ->paginate(10);
 
-        $customers->appends(['q' => request()->q]);
+        $customers->appends([
+            'q' => request()->q,
+            'type' => request()->type,
+        ]);
 
         return Inertia::render('Account/Customers/Index', [
             'customers' => $customers,
-            'filters' => request()->only('q'),
+            'filters' => request()->only('q', 'type'),
         ]);
     }
 
@@ -48,6 +54,11 @@ class CustomerController extends Controller
             'account_type' => 'nullable|string|max:50',
             'wa_plgn' => 'nullable|string|max:50',
             'total_deposit' => 'nullable|numeric|min:0',
+            'type' => 'required|in:member,pelanggan,mitra',
+            'ktp' => 'nullable|string|max:50',
+            'passport' => 'nullable|string|max:50',
+            'membership_level' => 'nullable|in:silver,gold,platinum',
+            'mitra_type' => 'nullable|in:seller,partner',
             'registration_date' => 'nullable|date',
         ]);
 
@@ -94,6 +105,11 @@ class CustomerController extends Controller
             'account_type' => 'nullable|string|max:50',
             'wa_plgn' => 'nullable|string|max:50',
             'total_deposit' => 'nullable|numeric|min:0',
+            'type' => 'required|in:member,pelanggan,mitra',
+            'ktp' => 'nullable|string|max:50',
+            'passport' => 'nullable|string|max:50',
+            'membership_level' => 'nullable|in:silver,gold,platinum',
+            'mitra_type' => 'nullable|in:seller,partner',
             'registration_date' => 'nullable|date',
         ]);
 

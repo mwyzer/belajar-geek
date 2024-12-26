@@ -76,5 +76,74 @@ Route::prefix('account')->group(function () {
         //route resource providers
         Route::resource('/providers', \App\Http\Controllers\Account\ProviderController::class, ['as' => 'account'])
             ->middleware('permission:providers.index|providers.create|providers.edit|providers.delete');
+
+        //route resource VoucherProfile
+        Route::resource('/voucher', \App\Http\Controllers\Account\VoucherProfileController::class, ['as' => 'account'])
+            ->middleware('permission:voucher.index|voucher.create|voucher.edit|voucher.delete');
+
+        //route resource sliders
+        Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
+            ->middleware('permission:sliders.index|sliders.create|sliders.delete');
+
+        //route store image product
+        Route::post('/products/store_image_product', [\App\Http\Controllers\Account\ProductController::class, 'storeImageProduct'])->name('account.products.store_image_product');
+
+        //route destroy image product
+        Route::delete('/products/destroy_image_product/{id}', [\App\Http\Controllers\Account\ProductController::class, 'destroyImage'])->name('account.products.destroy_image_product');
+
+        //route resource products
+        Route::resource('/products', \App\Http\Controllers\Account\ProductController::class, ['as' => 'account'])
+            ->middleware('permission:products.index|products.create|products.show|products.edit|products.delete');
+
+        //route transactions index
+        Route::get('/transactions', [App\Http\Controllers\Account\TransactionController::class, 'index'])->name('account.transactions.index')
+            ->middleware('permission:transactions.index');
+
+        //route transactions show
+        Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
+            ->middleware('permission:transactions.show');
     });
 });
+
+/**
+ * route home
+ */
+Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home.index');
+
+/**
+ * route category index
+ */
+Route::get('/categories', [\App\Http\Controllers\Web\CategoryController::class, 'index'])->name('web.categories.index');
+
+/**
+ * route category show
+ */
+Route::get('/categories/{slug}', [\App\Http\Controllers\Web\CategoryController::class, 'show'])->name('web.categories.show');
+
+/**
+ * route products index
+ */
+Route::get('/products', [\App\Http\Controllers\Web\ProductController::class, 'index'])->name('web.products.index');
+
+/**
+ * route products show
+ */
+Route::get('/products/{slug}', [\App\Http\Controllers\Web\ProductController::class, 'show'])->name('web.products.show');
+
+/**
+ * route cart index
+ */
+Route::get('/carts', [\App\Http\Controllers\Web\CartController::class, 'index'])->name('web.carts.index')
+    ->middleware('auth');
+
+/**
+ * route cart store
+ */
+Route::post('/carts', [\App\Http\Controllers\Web\CartController::class, 'store'])->name('web.carts.store')
+    ->middleware('auth');
+
+/**
+ * route cart delete
+ */
+Route::delete('/carts/{id}', [\App\Http\Controllers\Web\CartController::class, 'destroy'])->name('web.carts.destroy')
+    ->middleware('auth');

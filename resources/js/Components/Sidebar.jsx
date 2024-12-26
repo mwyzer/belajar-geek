@@ -19,6 +19,18 @@ export default function Sidebar() {
                     </Link>
                 }
 
+                {hasAnyPermission(['colors.index']) &&
+                    <Link href="/account/colors" className={`${url.startsWith('/account/colors') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
+                        <i className="fa fa-map-marker-alt me-2"></i> Colors
+                    </Link>
+                }
+
+                {hasAnyPermission(['warnas.index']) &&
+                    <Link href="/account/warnas" className={`${url.startsWith('/account/warnas') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
+                        <i className="fa fa-map-marker-alt me-2"></i> Warnas
+                    </Link>
+                }
+
                 {hasAnyPermission(['locations.index']) &&
                     <Link href="/account/locations" className={`${url.startsWith('/account/locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
                         <i className="fa fa-map-marker-alt me-2"></i> Locations
@@ -34,6 +46,12 @@ export default function Sidebar() {
                 {hasAnyPermission(['providers.index']) &&
                     <Link href="/account/providers" className={`${url.startsWith('/account/providers') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
                         <i className="fa fa-folder me-2"></i> Providers
+                    </Link>
+                }
+
+                {hasAnyPermission(['vouchers.index']) &&
+                    <Link href="/account/vouchers" className={`${url.startsWith('/account/vouchers') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
+                        <i className="fa fa-folder me-2"></i> Vouchers
                     </Link>
                 }
 
@@ -78,6 +96,9 @@ export default function Sidebar() {
                         <i className="fa fa-users me-2"></i> Users
                     </Link>
                 }
+
+
+
             </div>
         </>
     );
