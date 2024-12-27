@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('partner_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('whatsapp_number');
-            $table->string('telegram_id')->nullable();
-            $table->string('account_type');
-            $table->string('wa_plgn')->nullable();
-            $table->decimal('total_deposit', 15, 2)->default(0.00);
             $table->timestamps();
         });
     }
@@ -28,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('partner_types');
     }
 };

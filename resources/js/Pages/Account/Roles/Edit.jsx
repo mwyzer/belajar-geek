@@ -94,7 +94,7 @@ export default function RoleEdit() {
                                             <div className="form-check form-check-inline" key={index}>
                                                 <input className="form-check-input" type="checkbox" 
                                                     value={permission.name}
-                                                    defaultChecked={permissionsData.some((name) => name === permission.name ?? true)}
+                                                    defaultChecked={permissionsData.some((name) => name === permission.name)}
                                                     onChange={handleCheckboxChange}
                                                     id={`check-${permission.id}`} 
                                                 />

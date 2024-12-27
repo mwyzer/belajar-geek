@@ -136,7 +136,7 @@ export default function UserEdit() {
                                             <div className="form-check form-check-inline" key={index}>
                                                 <input className="form-check-input" type="checkbox" 
                                                     value={role.name}
-                                                    defaultChecked={rolesData.some((name) => name === role.name ?? true)}
+                                                    defaultChecked={rolesData.some((name) => name === role.name)}
                                                     onChange={handleCheckboxChange}
                                                     id={`check-${role.id}`} 
                                                 />

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mitras', function (Blueprint $table) {
+        Schema::create('member_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Nama Lengkap
-            $table->string('location'); // Lokasi
-            $table->string('type'); // Type (Seller/Other)
-            $table->string('whatsapp'); // No WhatsApp
-            $table->text('note')->nullable(); // Note
+            $table->string('name'); // Name of the member level
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mitras');
+        Schema::dropIfExists('member_levels');
     }
 };
