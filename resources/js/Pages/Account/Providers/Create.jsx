@@ -1,35 +1,43 @@
-// Import React  
-import React, { useState } from 'react';
-
-// Import layout
+import React, { useState } from "react";
 import LayoutAccount from '../../../Layouts/Account';
+import { Head, usePage, router } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 
-// Import Inertia modules
-import { Head, Link, useForm } from '@inertiajs/react';
+export default function ProviderCreate() {
+    const { errors } = usePage().props;
 
-// Import permissions utility
-import hasAnyPermission from '../../../Utils/Permissions';
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+    const [providerName, setProviderName] = useState("");
+    const [number, setNumber] = useState("");
+    const [position, setPosition] = useState("");
+    const [owner, setOwner] = useState("");
+    const [status, setStatus] = useState("active");
+    const [loadBalance, setLoadBalance] = useState(false);
 
-export default function ProviderCreate({ locations }) {
-    // Initialize Form State
-    const { data, setData, post, errors, reset } = useForm({
-        location_id: '',
-        provider_type: '',
-        numbers: '',
-        provider_status: '',
-        is_suk: false,
-        k1h: '',
-        pln_number: '',
-        pln_name: '',
-        wifi_private_pass: '',
-        wifi_main_pass: '',
-        status: 'inactive',
-    });
-
-    // Handle Submit
-    function handleSubmit(e) {
+    const storeProvider = async (e) => {
         e.preventDefault();
-        post('/account/providers');
+
+        router.post('/account/providers', {
+            name: name,
+            type: type,
+            provider: providerName,
+            number: number,
+            position: position,
+            owner: owner,
+            status: status,
+            load_balance: loadBalance
+        }, {
+            onSuccess: () => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Provider created successfully!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        });
     }
 
     return (
@@ -38,159 +46,114 @@ export default function ProviderCreate({ locations }) {
                 <title>Create Provider - Geek Store</title>
             </Head>
             <LayoutAccount>
-                {/* Header Section */}
-                <div className="row mt-5">
-                    <div className="col-md-8">
-                        <h4>Create Provider</h4>
-                    </div>
-                    <div className="col-md-4 text-end">
-                        <Link href="/account/providers" className="btn btn-secondary">
-                            Back
-                        </Link>
-                    </div>
-                </div>
+                <div className="row mt-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-success">
+                            <div className="card-header">
+                                <span className="font-weight-bold"><i className="fa fa-building"></i> Add New Provider</span>
+                            </div>
+                            <div className="card-body">
+                                <form onSubmit={storeProvider}>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Name</label>
+                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Provider Name" />
+                                        {errors.name && (
+                                            <div className="alert alert-danger">
+                                                {errors.name}
+                                            </div>
+                                        )}
+                                    </div>
 
-                {/* Form Section */}
-                <div className="card mt-3 border-0 rounded shadow-sm">
-                    <div className="card-body">
-                        <form onSubmit={handleSubmit}>
-                            {/* Location */}
-                            <div className="mb-3">
-                                <label className="form-label">Location</label>
-                                <select
-                                    value={data.location_id}
-                                    onChange={(e) => setData('location_id', e.target.value)}
-                                    className="form-select"
-                                >
-                                    <option value="">-- Select Location --</option>
-                                    {locations.map((location) => (
-                                        <option key={location.id} value={location.id}>
-                                            {location.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.location_id && <div className="text-danger">{errors.location_id}</div>}
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Type</label>
+                                        <input type="text" className="form-control" value={type} onChange={(e) => setType(e.target.value)} placeholder="Enter Provider Type" />
+                                        {errors.type && (
+                                            <div className="alert alert-danger">
+                                                {errors.type}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Provider Type */}
-                            <div className="mb-3">
-                                <label className="form-label">Provider Type</label>
-                                <input
-                                    type="text"
-                                    value={data.provider_type}
-                                    onChange={(e) => setData('provider_type', e.target.value)}
-                                    className="form-control"
-                                />
-                                {errors.provider_type && <div className="text-danger">{errors.provider_type}</div>}
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Provider Name</label>
+                                        <input type="text" className="form-control" value={providerName} onChange={(e) => setProviderName(e.target.value)} placeholder="Enter Provider Name" />
+                                        {errors.provider && (
+                                            <div className="alert alert-danger">
+                                                {errors.provider}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Numbers */}
-                            <div className="mb-3">
-                                <label className="form-label">Numbers (comma-separated)</label>
-                                <input
-                                    type="text"
-                                    value={data.numbers}
-                                    onChange={(e) => setData('numbers', e.target.value.split(','))}
-                                    className="form-control"
-                                />
-                                {errors.numbers && <div className="text-danger">{errors.numbers}</div>}
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Number</label>
+                                        <input type="text" className="form-control" value={number} onChange={(e) => setNumber(e.target.value)} placeholder="Enter Number" />
+                                        {errors.number && (
+                                            <div className="alert alert-danger">
+                                                {errors.number}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Provider Status */}
-                            <div className="mb-3">
-                                <label className="form-label">Provider Status</label>
-                                <input
-                                    type="text"
-                                    value={data.provider_status}
-                                    onChange={(e) => setData('provider_status', e.target.value)}
-                                    className="form-control"
-                                />
-                                {errors.provider_status && <div className="text-danger">{errors.provider_status}</div>}
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Position</label>
+                                        <input type="text" className="form-control" value={position} onChange={(e) => setPosition(e.target.value)} placeholder="Enter Position" />
+                                        {errors.position && (
+                                            <div className="alert alert-danger">
+                                                {errors.position}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Boolean Field: is_suk */}
-                            <div className="mb-3 form-check">
-                                <input
-                                    type="checkbox"
-                                    checked={data.is_suk}
-                                    onChange={(e) => setData('is_suk', e.target.checked)}
-                                    className="form-check-input"
-                                    id="isSuk"
-                                />
-                                <label className="form-check-label" htmlFor="isSuk">Is SUK</label>
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Owner</label>
+                                        <input type="text" className="form-control" value={owner} onChange={(e) => setOwner(e.target.value)} placeholder="Enter Owner" />
+                                        {errors.owner && (
+                                            <div className="alert alert-danger">
+                                                {errors.owner}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Other Fields */}
-                            <div className="mb-3">
-                                <label className="form-label">K1H</label>
-                                <input
-                                    type="text"
-                                    value={data.k1h}
-                                    onChange={(e) => setData('k1h', e.target.value)}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">PLN Number</label>
-                                <input
-                                    type="text"
-                                    value={data.pln_number}
-                                    onChange={(e) => setData('pln_number', e.target.value)}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">PLN Name</label>
-                                <input
-                                    type="text"
-                                    value={data.pln_name}
-                                    onChange={(e) => setData('pln_name', e.target.value)}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">WiFi Private Password</label>
-                                <input
-                                    type="text"
-                                    value={data.wifi_private_pass}
-                                    onChange={(e) => setData('wifi_private_pass', e.target.value)}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">WiFi Main Password</label>
-                                <input
-                                    type="text"
-                                    value={data.wifi_main_pass}
-                                    onChange={(e) => setData('wifi_main_pass', e.target.value)}
-                                    className="form-control"
-                                />
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Status</label>
+                                        <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                        {errors.status && (
+                                            <div className="alert alert-danger">
+                                                {errors.status}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Status */}
-                            <div className="mb-3">
-                                <label className="form-label">Status</label>
-                                <select
-                                    value={data.status}
-                                    onChange={(e) => setData('status', e.target.value)}
-                                    className="form-select"
-                                >
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                                {errors.status && <div className="text-danger">{errors.status}</div>}
-                            </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Load Balance</label>
+                                        <select
+                                            className="form-select"
+                                            value={loadBalance.toString()}
+                                            onChange={(e) => setLoadBalance(e.target.value === 'true')}
+                                        >
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                        {errors.load_balance && (
+                                            <div className="alert alert-danger">
+                                                {errors.load_balance}
+                                            </div>
+                                        )}
+                                    </div>
 
-                            {/* Submit Button */}
-                            <div className="d-flex justify-content-end">
-                                <button type="submit" className="btn btn-success">
-                                    Save Provider
-                                </button>
+                                    <div>
+                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Save</button>
+                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </LayoutAccount>
         </>
-    );
+    )
 }
