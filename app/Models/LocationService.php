@@ -17,4 +17,9 @@ class LocationService extends Model
         'serviceTypeId',
         'available',
     ];
+
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'serviceTypeId');
+    }
 }

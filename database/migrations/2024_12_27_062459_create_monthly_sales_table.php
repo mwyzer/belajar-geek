@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('monthly_sales', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('locationId'); // INT NOT NULL
+            $table->timestamp('salesMonth'); // TIMESTAMP NOT NULL
+            $table->integer('incomeAmount'); // NUMERIC NOT NULL
             $table->timestamps();
         });
     }

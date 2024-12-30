@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('daily_billings', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('serviceId'); // INT NOT NULL
+            $table->timestamp('billingDate'); // TIMESTAMP NOT NULL
+            $table->integer('amount'); // NUMERIC NOT NULL
             $table->timestamps();
         });
     }

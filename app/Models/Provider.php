@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provider extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'location_id',
@@ -31,7 +32,13 @@ class Provider extends Model
         'is_suk' => 'boolean',
     ];
 
-      /**
+    protected $rules = [
+        'location_id' => 'required|exists:locations,id',
+        'provider_type' => 'required|string',
+        'numbers' => 'required|array',
+    ];
+
+    /**
      * Get the location associated with the provider.
      */
     public function location(): BelongsTo
@@ -39,3 +46,10 @@ class Provider extends Model
         return $this->belongsTo(Location::class);
     }
 }
+
+enum ProviderType: string 
+{
+    case TYPE_A = 'type_a';
+    case TYPE_B = 'type_b';
+}
+
