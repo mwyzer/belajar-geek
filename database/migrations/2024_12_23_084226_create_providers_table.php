@@ -13,18 +13,14 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
-            $table->string('location_name');
-            $table->string('provider_type');
-            $table->json('numbers');
-            $table->string('provider_status');
-            $table->boolean('is_suk')->default(false);
-            $table->string('k1h')->nullable();
-            $table->string('pln_number')->nullable();
-            $table->string('pln_name')->nullable();
-            $table->string('wifi_private_pass');
-            $table->string('wifi_main_pass');
-            $table->string('status');
+            $table->string('name'); // Provider name
+            $table->string('type'); // Pascabayar, Prabayar, Metro, Satelit
+            $table->string('provider'); // Provider company name
+            $table->string('number'); // Contact or identification number
+            $table->string('position'); // ISP-01, ISP-02, etc.
+            $table->string('owner'); // Owner of the provider
+            $table->string('status'); // Terpasang, Stand By, Bermasalah
+            $table->boolean('load_balance')->default(false); // Load Balance status
             $table->timestamps();
         });
     }

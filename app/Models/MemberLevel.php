@@ -14,7 +14,7 @@ class MemberLevel extends Model
     ];
 
     /**
-     * Define a relationship with VoucherMemberPrice.
+     * Relationship with VoucherMemberPrice.
      */
     public function voucherMemberPrices()
     {

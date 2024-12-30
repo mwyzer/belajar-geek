@@ -15,11 +15,17 @@ class VoucherMemberPrice extends Model
         'price_points',
     ];
 
+    /**
+     * Relationship with VoucherProfile.
+     */
     public function voucherProfile()
     {
         return $this->belongsTo(VoucherProfile::class, 'voucher_profile_id');
     }
 
+    /**
+     * Relationship with MemberLevel.
+     */
     public function memberLevel()
     {
         return $this->belongsTo(MemberLevel::class, 'member_level_id');
