@@ -10,26 +10,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provider extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'location_id',
-        'location_name',
-        'provider_type',
-        'numbers',
-        'provider_status',
-        'is_suk',
-        'k1h',
-        'pln_number',
-        'pln_name',
-        'wifi_private_pass',
-        'wifi_main_pass',
+        'name',
+        'type',
+        'provider',
+        'number',
+        'position',
+        'owner',
         'status',
+        'load_balance',
     ];
 
     protected $casts = [
         'numbers' => 'array',
-        'is_suk' => 'boolean',
+       
     ];
 
     protected $rules = [
@@ -47,9 +43,4 @@ class Provider extends Model
     }
 }
 
-enum ProviderType: string 
-{
-    case TYPE_A = 'type_a';
-    case TYPE_B = 'type_b';
-}
 

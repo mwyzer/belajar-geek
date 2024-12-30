@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Models\Provider;
+use App\Models\SatelliteProvider;
 use App\Models\Location;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ProviderController extends Controller
+class SatelliteProviderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $providers = Provider::with('location')
+        $providers = SatelliteProvider::with('location')
             ->when(request()->q, function ($query) {
                 $query->where('provider_type', 'like', '%' . request()->q . '%')
                       ->orWhere('location_name', 'like', '%' . request()->q . '%');
@@ -64,7 +64,7 @@ class ProviderController extends Controller
 
         $location = Location::findOrFail($validated['location_id']);
 
-        Provider::create([
+        SatelliteProvider::create([
             'location_id' => $validated['location_id'],
             'location_name' => Location::find($validated['location_id'])->name,
             'provider_type' => $validated['provider_type'],
@@ -85,7 +85,7 @@ class ProviderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Provider $provider)
+    public function show(SatelliteProvider $provider)
     {
         return Inertia::render('Account/Providers/Show', [
             'provider' => $provider->load('location'),
@@ -95,7 +95,7 @@ class ProviderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Provider $provider)
+    public function edit(SatelliteProvider $provider)
     {
         $locations = Location::all(['id', 'name']);
 
@@ -108,7 +108,7 @@ class ProviderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Provider $provider)
+    public function update(Request $request, SatelliteProvider $provider)
     {
         $validated = $request->validate([
             'location_id' => 'required|exists:locations,id',
@@ -145,7 +145,7 @@ class ProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Provider $provider)
+    public function destroy(SatelliteProvider $provider)
     {
         $provider->delete();
 

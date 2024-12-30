@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Provider;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(ProvincesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
+        $this->call(ProviderSeeder::class);
 
     }
 }
