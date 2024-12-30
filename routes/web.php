@@ -65,18 +65,22 @@ Route::prefix('account')->group(function () {
         Route::resource('/locations', \App\Http\Controllers\Account\LocationController::class, ['as' => 'account'])
             ->middleware('permission:locations.index|locations.create|locations.edit');
 
-        // Prepaid Provider Resource Routes
-        Route::prefix('prepaid-providers')->group(function () {
-            Route::get('/', [PrepaidProviderController::class, 'index'])->name('account.prepaid-providers.index');
-            Route::post('/', [PrepaidProviderController::class, 'store'])->name('account.prepaid-providers.store');
-            Route::get('/{prepaidProvider}', [PrepaidProviderController::class, 'show'])->name('account.prepaid-providers.show');
-            Route::put('/{prepaidProvider}', [PrepaidProviderController::class, 'update'])->name('account.prepaid-providers.update');
-            Route::delete('/{prepaidProvider}', [PrepaidProviderController::class, 'destroy'])->name('account.prepaid-providers.destroy');
+        // Route resource Provider Locations
+        Route::resource('/provider-locations', \App\Http\Controllers\Account\ProviderLocationController::class, ['as' => 'account'])
+            ->middleware('permission:provider-locations.index|provider-locations.create|provider-locations.edit|provider-locations.delete|provider-locations.show');
 
-            // Dynamic Package Routes
-            Route::post('/{id}/packages', [PrepaidProviderController::class, 'addPackage'])->name('account.prepaid-providers.add-package');
-            Route::delete('/{id}/packages/{index}', [PrepaidProviderController::class, 'removePackage'])->name('account.prepaid-providers.remove-package');
-        });
+        // Prepaid Provider Resource Routes
+        // Route::prefix('prepaid-providers')->group(function () {
+        //     Route::get('/', [PrepaidProviderController::class, 'index'])->name('account.prepaid-providers.index');
+        //     Route::post('/', [PrepaidProviderController::class, 'store'])->name('account.prepaid-providers.store');
+        //     Route::get('/{prepaidProvider}', [PrepaidProviderController::class, 'show'])->name('account.prepaid-providers.show');
+        //     Route::put('/{prepaidProvider}', [PrepaidProviderController::class, 'update'])->name('account.prepaid-providers.update');
+        //     Route::delete('/{prepaidProvider}', [PrepaidProviderController::class, 'destroy'])->name('account.prepaid-providers.destroy');
+
+        //     // Dynamic Package Routes
+        //     Route::post('/{id}/packages', [PrepaidProviderController::class, 'addPackage'])->name('account.prepaid-providers.add-package');
+        //     Route::delete('/{id}/packages/{index}', [PrepaidProviderController::class, 'removePackage'])->name('account.prepaid-providers.remove-package');
+        // });
 
         //route resource Customers
         Route::resource('/customers', \App\Http\Controllers\Account\CustomerController::class, ['as' => 'account'])

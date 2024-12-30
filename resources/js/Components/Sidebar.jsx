@@ -25,6 +25,18 @@ export default function Sidebar() {
                     </Link>
                 }
 
+                {hasAnyPermission(['warnas.index']) &&
+                    <Link href="/account/warnas" className={`${url.startsWith('/account/warnas') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
+                        <i className="fa fa-map-marker-alt me-2"></i> Warnas
+                    </Link>
+                }
+
+                {hasAnyPermission(['providerlocations.index']) &&
+                    <Link href="/account/provider-locations" className={`${url.startsWith('/account/provider-locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
+                        <i className="fa fa-map-marker-alt me-2"></i> Provider Locations
+                    </Link>
+                }
+
                 {hasAnyPermission(['locations.index']) &&
                     <Link href="/account/locations" className={`${url.startsWith('/account/locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
                         <i className="fa fa-map-marker-alt me-2"></i> Locations
