@@ -21,11 +21,12 @@ class Provider extends Model
         'owner',
         'status',
         'load_balance',
+        'location_id'
     ];
 
     protected $casts = [
         'numbers' => 'array',
-       
+
     ];
 
     protected $rules = [
@@ -42,5 +43,3 @@ class Provider extends Model
         return $this->belongsTo(Location::class);
     }
 }
-
-

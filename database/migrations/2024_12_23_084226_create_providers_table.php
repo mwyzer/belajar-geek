@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('owner'); // Owner of the provider
             $table->string('status'); // Terpasang, Stand By, Bermasalah
             $table->boolean('load_balance')->default(false); // Load Balance status
+            $table->foreignId('location_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,5 +32,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('providers');
+        Schema::table('providers', function (Blueprint $table) {
+            $table->dropForeign(['location_id']);
+            $table->dropColumn('location_id');
+        });
     }
 };

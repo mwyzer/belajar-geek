@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
 
-class ProviderSeeder extends Seeder
+class ProviderTableSeeder extends Seeder
 {
     public function run()
     {
@@ -18,6 +18,7 @@ class ProviderSeeder extends Seeder
             'owner' => 'User 1',
             'status' => 'Terpasang',
             'load_balance' => true,
+            'location_id' => 1,
         ]);
 
         Provider::create([
@@ -29,6 +30,7 @@ class ProviderSeeder extends Seeder
             'owner' => 'User 2',
             'status' => 'Stand By',
             'load_balance' => false,
+            'location_id' => 2,
         ]);
     }
 }
