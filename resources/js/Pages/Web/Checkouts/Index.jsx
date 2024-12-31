@@ -233,14 +233,14 @@ export default function CheckoutIndex() {
                                 </div>
 
                                 <StoreCheckout    
-                                    // provinceID={provinceID}
-                                    // cityID={cityID}
-                                    // courierName={courierName}
-                                    // courierService={courierService}
-                                    // courierCost={courierCost}
-                                    // weight={dataCarts.weight}
+                                    provinceID={provinceID}
+                                    cityID={cityID}
+                                    courierName={courierName}
+                                    courierService={courierService}
+                                    courierCost={courierCost}
+                                    weight={dataCarts.weight}
                                     grandTotal={grandTotal}
-                                    // address={address}
+                                    address={address}
                                 />    
 
                             </div>

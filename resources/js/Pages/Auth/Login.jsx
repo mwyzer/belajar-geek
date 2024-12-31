@@ -6,6 +6,11 @@ import { Head, usePage, Link, router } from '@inertiajs/react';
 
 export default function Login() {
 
+    const handleGoogleLogin = () => {
+        window.location.href = '/auth/google';
+    };
+
+
     //destruct props "errors"
     const { errors } = usePage().props;
 
@@ -65,8 +70,21 @@ export default function Login() {
                                             {errors.password}
                                         </div>
                                     )}
+                                    <div className="d-grid gap-2"> {/* Added container for buttons */}
+                                        <button
+                                            className="btn btn-success shadow-sm rounded-sm px-4 w-100"
+                                            type="submit">
+                                            LOGIN
+                                        </button>
 
-                                    <button className="btn btn-success shadow-sm rounded-sm px-4 w-100" type="submit">LOGIN</button>
+                                        <button
+                                            type="button"
+                                            onClick={handleGoogleLogin}
+                                            className="btn btn-success shadow-sm rounded-sm px-4 w-100">
+                                            <i className="fab fa-google me-2"></i>
+                                            Login with Google
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
