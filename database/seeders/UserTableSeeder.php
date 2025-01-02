@@ -9,32 +9,41 @@ use Spatie\Permission\Models\Permission;
 
 class UserTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Create or find user
-        $user = User::firstOrCreate(
-            ['email' => 'admin@gmail.com'], // Search by email
+        // Create admin role and user
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $customerRole = Role::firstOrCreate(['name' => 'customer']);
+
+        // Assign all permissions to admin role
+        $permissions = Permission::all();
+        $adminRole->syncPermissions($permissions);
+
+        // Create admin user
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
             [
                 'name' => 'Administrator',
                 'password' => bcrypt('password'),
             ]
         );
 
-        // Get all permissions
-        $permissions = Permission::all();
+        // Create customer user
+        $customer = User::firstOrCreate(
+            ['email' => 'rish@gmail.com'],
+            [
+                'name' => 'Customer User',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        // Get or create the role 'admin'
-        $role = Role::firstOrCreate(['name' => 'admin']);
+        // Assign roles
+        if (!$admin->hasRole('admin')) {
+            $admin->assignRole($adminRole);
+        }
 
-        // Assign permissions to role
-        $role->syncPermissions($permissions);
-
-        // Assign role to user
-        if (!$user->hasRole('admin')) {
-            $user->assignRole($role);
+        if (!$customer->hasRole('customer')) {
+            $customer->assignRole($customerRole);
         }
     }
 }

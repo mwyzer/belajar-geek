@@ -7,7 +7,7 @@ import { router } from '@inertiajs/react';
 //import Sweet Alert
 import Swal from 'sweetalert2';
 
-export default function StoreCheckout({ grandTotal, address }) {
+export default function StoreCheckout({ provinceID, cityID, courierName, courierService, courierCost, weight, grandTotal, address }) {
 
     //method checkout
     const storeCheckout = () => {
@@ -15,12 +15,12 @@ export default function StoreCheckout({ grandTotal, address }) {
         router.post('/checkouts', {
 
             //data
-            // province_id: provinceID,
-            // city_id: cityID,
-            // courier_name: courierName,
-            // courier_service: courierService,
-            // courier_cost: courierCost,
-            // weight: weight,
+            province_id: provinceID,
+            city_id: cityID,
+            courier_name: courierName,
+            courier_service: courierService,
+            courier_cost: courierCost,
+            weight: weight,
             grand_total: grandTotal,
             address: address
 
