@@ -32,16 +32,6 @@ Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'store
 //route logout
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
 
-// Add these routes after the existing auth routes
-Route::get('/auth/google', [\App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])
-    ->name('auth.google')
-    ->middleware('guest');
-
-Route::get('/auth/google/callback', [\App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback'])
-    ->name('auth.google.callback')
-    ->middleware('guest');
-
-
 //prefix "account"
 Route::prefix('account')->group(function () {
 

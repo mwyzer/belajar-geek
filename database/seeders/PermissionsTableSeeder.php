@@ -90,9 +90,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'sliders.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'sliders.create', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'sliders.delete', 'guard_name' => 'web']);
-
-        // Permission Checkouts
-        Permission::firstOrCreate(['name' => 'checkouts.index', 'guard_name' => 'web']);
-        Permission::firstOrCreate(['name' => 'checkouts.show', 'guard_name' => 'web']);
+        
     }
 }
