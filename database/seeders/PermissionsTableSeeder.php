@@ -85,6 +85,8 @@ class PermissionsTableSeeder extends Seeder
         // Permission Transactions
         Permission::firstOrCreate(['name' => 'transactions.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'transactions.show', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'transactions.userTransactions', 'guard_name' => 'web']);
+
 
         // Permission Sliders
         Permission::firstOrCreate(['name' => 'sliders.index', 'guard_name' => 'web']);
@@ -94,6 +96,9 @@ class PermissionsTableSeeder extends Seeder
         // Permission Checkouts
         Permission::firstOrCreate(['name' => 'checkouts.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'checkouts.show', 'guard_name' => 'web']);
-        
+
+        // Permission Google
+        Permission::firstOrCreate(['name' => 'google.redirect', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'google.callback', 'guard_name' => 'web']);
     }
 }

@@ -32,7 +32,7 @@ class TransactionController extends Controller
         } else {
             
             //get transactions
-            $transactions = Transaction::with('user')->when(request()->q, function($categories) {
+            $transactions = Transaction::with(['user:id,name,email,google_id'])->when(request()->q, function($categories) {
                 $categories = $categories->where('invoice', 'like', '%'. request()->q . '%');
             })->where('user_id', auth()->user()->id)->latest()->paginate(5);
 
@@ -56,11 +56,42 @@ class TransactionController extends Controller
     public function show($invoice)
     {
         //get detail transaction by "reference"
-        $transaction = Transaction::with('transactionDetails.product', 'user', 'province', 'city')->where('invoice', $invoice)->first();
+        $transaction = Transaction::with([
+            'user:id,name,email,google_id',
+            'transactionDetails.product',
+            'province',
+            'city'
+        ])->where('invoice', $invoice)->first();
 
         //return inertia
         return inertia('Account/Transactions/Show', [
             'transaction' => $transaction,
         ]);
     }
+
+
+
+     /**
+     * Get all transactions for a specific user including google_id.
+     *
+     * @param int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function userTransactions($userId)
+    {
+        // Get transactions for a specific user including google_id
+        $transactions = Transaction::with(['user:id,name,email,google_id'])
+            ->where('user_id', $userId)
+            ->latest()
+            ->paginate(5);
+
+        // Return inertia
+        return inertia('Account/Transactions/UserTransactions', [
+            'transactions' => $transactions,
+        ]);
+    }
+
+
+
+
 }

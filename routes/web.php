@@ -128,6 +128,11 @@ Route::prefix('account')->group(function () {
         //route transactions show
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
+
+        // Route for listing transactions of a specific user
+        Route::get('/transactions/user/{userId}', [App\Http\Controllers\Account\TransactionController::class, 'userTransactions'])
+            ->name('account.transactions.user')
+            ->middleware('permission:transactions.user');
     });
 });
 
