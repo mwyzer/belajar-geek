@@ -9,6 +9,7 @@
         "duitkupg/duitku-php": "dev-master",
         "inertiajs/inertia-laravel": "1.0.0",
         "laravel/framework": "^11.0",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "6.4.0"
     },

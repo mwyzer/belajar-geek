@@ -9,6 +9,10 @@ export default function Login() {
     //destruct props "errors"
     const { errors } = usePage().props;
 
+    const handleGoogleLogin = () => {
+        window.location.href = '/auth/google';
+    };
+
     //state user
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -67,8 +71,20 @@ export default function Login() {
                                     )}
 
                                     <button className="btn btn-success shadow-sm rounded-sm px-4 w-100" type="submit">LOGIN</button>
+                                    {/* <button
+                                        onClick={handleGoogleLogin}
+                                        style={{ padding: '10px', backgroundColor: '#4285F4', color: '#fff' }}
+                                    >
+                                        Login with Google
+                                    </button> */}
+                                    <button
+                                        onClick={handleGoogleLogin}
+                                        style={{ padding: '10px', backgroundColor: '#4285F4', color: '#fff' }}
+                                    >
+                                        Login with Google
+                                    </button>
                                 </form>
-                            </div>
+                        </div>
                         </div>
                         <div className="register text-center mt-3">
                             Need an account? <Link href="/register">Register!</Link>
