@@ -73,11 +73,6 @@ class Transaction extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function qris()
-{
-    return $this->hasOne(Qris::class);
-}
-
     /**
      * Format createdAt attribute.
      *

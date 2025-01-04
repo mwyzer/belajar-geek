@@ -57,7 +57,7 @@ class TransactionController extends Controller
     {
         //get detail transaction by "reference"
         $transaction = Transaction::with([
-            'user:id,name,email,google_id, qris',
+            'user:id,name,email,google_id',
             'transactionDetails.product',
             'province',
             'city'

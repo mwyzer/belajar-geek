@@ -32,7 +32,7 @@ class UserTableSeeder extends Seeder
         $customer = User::firstOrCreate(
             ['email' => 'rish@gmail.com'],
             [
-                'name' => 'MR',
+                'name' => 'Customer User',
                 'password' => bcrypt('password'),
             ]
         );
