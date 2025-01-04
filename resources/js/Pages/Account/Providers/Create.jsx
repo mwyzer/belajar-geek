@@ -14,6 +14,7 @@ export default function ProviderCreate() {
     const [owner, setOwner] = useState("");
     const [status, setStatus] = useState("active");
     const [loadBalance, setLoadBalance] = useState(false);
+    const [locationId, setLocationId] = useState("");
 
     const storeProvider = async (e) => {
         e.preventDefault();
@@ -26,7 +27,8 @@ export default function ProviderCreate() {
             position: position,
             owner: owner,
             status: status,
-            load_balance: loadBalance
+            load_balance: loadBalance,
+            location_id: locationId
         }, {
             onSuccess: () => {
                 Swal.fire({
@@ -35,10 +37,12 @@ export default function ProviderCreate() {
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 1500
-                })
+                });
             }
         });
-    }
+    };
+
+    const { locations } = usePage().props;
 
     return (
         <>
@@ -143,7 +147,26 @@ export default function ProviderCreate() {
                                             </div>
                                         )}
                                     </div>
-
+                                      <div className="mb-3">
+                                          <label className="form-label fw-bold">Location</label>
+                                          <select 
+                                              className="form-select" 
+                                              value={locationId} 
+                                              onChange={(e) => setLocationId(e.target.value)}
+                                          >
+                                              <option value="">Select a Location</option>
+                                              {locations.map((location) => (
+                                                  <option key={location.id} value={location.id}>
+                                                      {location.name}
+                                                  </option>
+                                              ))}
+                                          </select>
+                                          {errors.location_id && (
+                                              <div className="alert alert-danger">
+                                                  {errors.location_id}
+                                              </div>
+                                          )}
+                                      </div>
                                     <div>
                                         <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Save</button>
                                         <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>

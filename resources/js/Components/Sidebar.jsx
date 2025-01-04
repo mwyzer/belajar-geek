@@ -1,108 +1,43 @@
-//import React
 import React from "react";
-
-//import permissions
 import hasAnyPermission from '../Utils/Permissions';
-
-//import Link and usePage
 import { Link, usePage } from '@inertiajs/react';
 
 export default function Sidebar() {
     const { url } = usePage();
 
+    const sidebarLinks = [
+        { permission: 'dashboard.index', href: '/account/dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
+        { permission: 'colors.index', href: '/account/colors', icon: 'fa-palette', label: 'Colors' },
+        { permission: 'warnas.index', href: '/account/warnas', icon: 'fa-tint', label: 'Warnas' },
+        { permission: 'providerlocations.index', href: '/account/provider-locations', icon: 'fa-map-marker-alt', label: 'Provider Locations' },
+        { permission: 'locations.index', href: '/account/locations', icon: 'fa-map-marker-alt', label: 'Locations' },
+        // Location Partners
+        { permission: 'locationpartners.index', href: '/account/location-partners', icon: 'fa-map-marker-alt', label: 'Location Partners' },
+        { permission: 'categories.index', href: '/account/categories', icon: 'fa-folder', label: 'Categories' },
+        { permission: 'providers.index', href: '/account/providers', icon: 'fa-folder', label: 'Providers' },
+        { permission: 'vouchers.index', href: '/account/vouchers', icon: 'fa-ticket-alt', label: 'Vouchers' },
+        { permission: 'customers.index', href: '/account/customers', icon: 'fa-users', label: 'Customers' },
+        { permission: 'products.index', href: '/account/products', icon: 'fa-shopping-bag', label: 'Products' },
+        { permission: 'transactions.index', href: '/account/transactions', icon: 'fa-shopping-cart', label: 'Transactions' },
+        { permission: 'sliders.index', href: '/account/sliders', icon: 'fa-images', label: 'Sliders' },
+        { permission: 'roles.index', href: '/account/roles', icon: 'fa-shield-alt', label: 'Roles' },
+        { permission: 'permissions.index', href: '/account/permissions', icon: 'fa-key', label: 'Permissions' },
+        { permission: 'users.index', href: '/account/users', icon: 'fa-user', label: 'Users' },
+    ];
+
     return (
-        <>
-            <div className="list-group list-group-flush">
-                {hasAnyPermission(['dashboard.index']) &&
-                    <Link href="/account/dashboard" className={`${url.startsWith('/account/dashboard') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-tachometer-alt me-2"></i> Dashboard
+        <div className="list-group list-group-flush">
+            {sidebarLinks.map(({ permission, href, icon, label }) => (
+                hasAnyPermission([permission]) && (
+                    <Link
+                        key={permission}
+                        href={href}
+                        className={`${url.startsWith(href) ? "active" : ""} list-group-item list-group-item-action list-group-item-light p-3`}
+                    >
+                        <i className={`fa ${icon} me-2`}></i> {label}
                     </Link>
-                }
-
-                {hasAnyPermission(['colors.index']) &&
-                    <Link href="/account/colors" className={`${url.startsWith('/account/colors') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-map-marker-alt me-2"></i> Colors
-                    </Link>
-                }
-
-                {hasAnyPermission(['warnas.index']) &&
-                    <Link href="/account/warnas" className={`${url.startsWith('/account/warnas') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-map-marker-alt me-2"></i> Warnas
-                    </Link>
-                }
-
-                {hasAnyPermission(['providerlocations.index']) &&
-                    <Link href="/account/provider-locations" className={`${url.startsWith('/account/provider-locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-map-marker-alt me-2"></i> Provider Locations
-                    </Link>
-                }
-
-                {hasAnyPermission(['locations.index']) &&
-                    <Link href="/account/locations" className={`${url.startsWith('/account/locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-map-marker-alt me-2"></i> Locations
-                    </Link>
-                }
-
-                {hasAnyPermission(['categories.index']) &&
-                    <Link href="/account/categories" className={`${url.startsWith('/account/categories') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-folder me-2"></i> Categories
-                    </Link>
-                }
-
-                {hasAnyPermission(['providers.index']) &&
-                    <Link href="/account/providers" className={`${url.startsWith('/account/providers') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-folder me-2"></i> Providers
-                    </Link>
-                }
-
-                {hasAnyPermission(['vouchers.index']) &&
-                    <Link href="/account/vouchers" className={`${url.startsWith('/account/vouchers') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-folder me-2"></i> Vouchers
-                    </Link>
-                }
-
-                {hasAnyPermission(['customers.index']) &&
-                    <Link href="/account/customers" className={`${url.startsWith('/account/customers') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-users me-2"></i> Customers
-                    </Link>
-                }
-
-                {hasAnyPermission(['products.index']) &&
-                    <Link href="/account/products" className={`${url.startsWith('/account/products') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-shopping-bag me-2"></i> Products
-                    </Link>
-                }
-
-                {hasAnyPermission(['transactions.index']) &&
-                    <Link href="/account/transactions" className={`${url.startsWith('/account/transactions') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-shopping-cart me-2"></i> Transactions
-                    </Link>
-                }
-
-                {hasAnyPermission(['sliders.index']) &&
-                    <Link href="/account/sliders" className={`${url.startsWith('/account/sliders') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-images me-2"></i> Sliders
-                    </Link>
-                }
-
-                {hasAnyPermission(['roles.index']) &&
-                    <Link href="/account/roles" className={`${url.startsWith('/account/roles') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-shield-alt me-2"></i> Roles
-                    </Link>
-                }
-
-                {hasAnyPermission(['permissions.index']) &&
-                    <Link href="/account/permissions" className={`${url.startsWith('/account/permissions') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-key me-2"></i> Permissions
-                    </Link>
-                }
-
-                {hasAnyPermission(['users.index']) &&
-                    <Link href="/account/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}>
-                        <i className="fa fa-users me-2"></i> Users
-                    </Link>
-                }
-            </div>
-        </>
+                )
+            ))}
+        </div>
     );
 }

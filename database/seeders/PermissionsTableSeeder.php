@@ -44,6 +44,13 @@ class PermissionsTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'providers.edit', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'providers.delete', 'guard_name' => 'web']);
 
+         // Permission LocationPartners
+         Permission::firstOrCreate(['name' => 'location_partners.index', 'guard_name' => 'web']);
+         Permission::firstOrCreate(['name' => 'location_partners.create', 'guard_name' => 'web']);
+         Permission::firstOrCreate(['name' => 'location_partners.edit', 'guard_name' => 'web']);
+         Permission::firstOrCreate(['name' => 'location_partners.delete', 'guard_name' => 'web']);
+ 
+
         // Permission VoucherProfile
         Permission::firstOrCreate(['name' => 'vouchers.index', 'guard_name' => 'web']);
         Permission::firstOrCreate(['name' => 'vouchers.create', 'guard_name' => 'web']);

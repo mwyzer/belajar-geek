@@ -41,9 +41,8 @@ export default function LocationCreate() {
 
         // Sending data
         router.post('/account/locations', formData, {
-            forceFormData: true, // Ensure data is sent as multipart/form-data
+            forceFormData: true,
             onSuccess: () => {
-                // Show alert
                 Swal.fire({
                     title: 'Success!',
                     text: 'Data saved successfully!',
@@ -51,12 +50,14 @@ export default function LocationCreate() {
                     showConfirmButton: false,
                     timer: 1500
                 });
-
-                // Clear state
-                setName('');
-                setAddress('');
-                setImage(null);
-                document.getElementById('imageInput').value = '';
+            },
+            onError: () => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong!',
+                    icon: 'error',
+                    showConfirmButton: true
+                });
             }
         });
     };
