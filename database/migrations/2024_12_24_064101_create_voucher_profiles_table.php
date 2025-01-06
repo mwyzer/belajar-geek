@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_published')->default(false);
             $table->boolean('show_stock')->default(true);
             $table->integer('max_purchase_per_transaction')->default(5);
-            $table->string('generate_link');
+            $table->string('generate_link')->nullable();
             $table->timestamps();
         });
     }

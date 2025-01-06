@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('voucher_import_scripts', function (Blueprint $table) {
+        Schema::create('voucher_types', function (Blueprint $table) {
             $table->id();
-            $table->text('script');
-            $table->string('profile_name', 255);
-            $table->text('comment')->nullable();
-            $table->unsignedBigInteger('limit_bytes_total');
+            $table->string('name')->unique();
+            $table->boolean('is_online')->default(false);
+            $table->boolean('is_offline')->default(false);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voucher_import_scripts');
+        Schema::dropIfExists('voucher_types');
     }
 };

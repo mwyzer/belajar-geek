@@ -7,8 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class VoucherType extends Model
 {
-    //
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'is_online',
+        'is_offline',
+
+    ];
+
+    public function incomes()
+    {
+        return $this->hasMany(VoucherIncome::class, 'voucher_type_id');
+    }
 }

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CitiesTableSeeder::class,
             LocationTableSeeder::class,
             ProviderTableSeeder::class,
+            VoucherProfileSeeder::class,
         ]);
     }
 }
