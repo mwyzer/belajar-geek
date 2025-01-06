@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Account;
 
 use App\Models\Provider;
-use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -15,29 +14,21 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        // Get providers with search functionality
-        $providers = Provider::when(request()->q, function ($query) {
-            $query->where('name', 'like', '%' . request()->q . '%');
-        })->latest()->paginate(5);
-
-        // Append search query to pagination links
-        $providers->appends(['q' => request()->q]);
+        $providers = Provider::latest()->paginate(5);
 
         return inertia('Account/Providers/Index', [
             'providers' => $providers,
         ]);
     }
+
     /**
-      * Show the form for creating a new resource.
-      */
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        $locations = Location::select('id', 'name')->get();
-        
-        return inertia('Account/Providers/Create', [
-            'locations' => $locations
-        ]);
+        return inertia('Account/Providers/Create');
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -52,18 +43,13 @@ class ProviderController extends Controller
             'owner' => 'required|string',
             'status' => 'required|string',
             'load_balance' => 'required|boolean',
-            'location_id' => 'required|exists:locations,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Handle image upload if exists
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->storeAs('public/providers', $image->hashName());
-            $validated['image'] = $image->hashName();
+            $validated['image'] = $request->file('image')->store('public/providers');
         }
 
-        // Create provider
         Provider::create($validated);
 
         return redirect()->route('account.providers.index')
@@ -71,12 +57,20 @@ class ProviderController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Provider $provider)
+    {
+        return inertia('Account/Providers/Show', [
+            'provider' => $provider,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Provider $provider)
     {
-        $provider = Provider::findOrFail($id);
-
         return inertia('Account/Providers/Edit', [
             'provider' => $provider,
         ]);
@@ -88,27 +82,22 @@ class ProviderController extends Controller
     public function update(Request $request, Provider $provider)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'type' => 'required|string',
-            'provider' => 'required|string',
-            'number' => 'required|string',
-            'position' => 'required|string',
-            'owner' => 'required|string',
-            'status' => 'required|string',
-            'load_balance' => 'required|boolean',
-            'location_id' => 'required|exists:locations,id',
+            'name' => 'string',
+            'type' => 'string',
+            'provider' => 'string',
+            'number' => 'string',
+            'position' => 'string',
+            'owner' => 'string',
+            'status' => 'string',
+            'load_balance' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Handle image upload and delete old image if a new one is uploaded
         if ($request->hasFile('image')) {
-            Storage::disk('local')->delete('public/providers/' . basename($provider->image));
-            $image = $request->file('image');
-            $image->storeAs('public/providers', $image->hashName());
-            $validated['image'] = $image->hashName();
+            Storage::disk('local')->delete($provider->image);
+            $validated['image'] = $request->file('image')->store('public/providers');
         }
 
-        // Update provider
         $provider->update($validated);
 
         return redirect()->route('account.providers.index')
@@ -118,16 +107,12 @@ class ProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Provider $provider)
     {
-        $provider = Provider::findOrFail($id);
-
-        // Delete associated image if exists
         if ($provider->image) {
-            Storage::disk('local')->delete('public/providers/' . basename($provider->image));
+            Storage::disk('local')->delete($provider->image);
         }
 
-        // Delete provider
         $provider->delete();
 
         return redirect()->route('account.providers.index')

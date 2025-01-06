@@ -37,6 +37,6 @@ class Location extends Model
      */
     public function providers(): HasMany
     {
-        return $this->hasMany(Provider::class);
+        return $this->hasMany(Provider::class, 'location_id');
     }
 }

@@ -29,6 +29,23 @@ export default function LocationIndex() {
             <LayoutAccount>
                 <div className="d-flex">
                     {/* Sidebar - Make it always visible on desktop */}
+                    <div className="sidebar-nav d-none d-md-block" style={{
+                        width: '250px',
+                        minHeight: '100vh',
+                        borderRight: '1px solid #dee2e6'
+                    }}>
+                        <NewLayout />
+                    </div>
+
+                    {/* Mobile Sidebar - Only shows when toggled */}
+                    <div className={`position-fixed sidebar-nav d-md-none ${sidebarOpen ? 'd-block' : 'd-none'}`} style={{
+                        width: '250px',
+                        minHeight: '100vh',
+                        borderRight: '1px solid #dee2e6',
+                        zIndex: 1000
+                    }}>
+                        <Sidebar2 />
+                    </div>
 
                     {/* Main Content - Always visible */}
                     <div className="flex-grow-1 p-4">

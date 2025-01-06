@@ -130,15 +130,15 @@ class CheckoutController extends Controller
                     'color'             => $cart->color,
                     'color_image'       => basename($cart->color_image),
                     'size'              => $cart->size,
-                    'qty'               => $cart->qty,
-                    'price'             => $cart->price,
+                    'qty'               => (int) $cart->qty,
+                    'price'             => (int) $cart->price,
                 ]); 
                 
                 //assign item details
                 $item_details [] = array(
                     'name'      => $cart->product->title,
-                    'price'     => $cart->price,
-                    'quantity'  => $cart->qty
+                    'price'     => (int) floor ($cart->price),
+                    'quantity'  => (int) $cart->qty
                 );
             }
 
@@ -148,7 +148,7 @@ class CheckoutController extends Controller
             //add ongkir to item details
             $ongkir = array(
                 'name'      => 'Shipping Cost : '.$request->courier_name,
-                'price'     => (int) $request->courier_cost,
+                'price'     => (int) floor(is_numeric($request->courier_cost) ? $request->courier_cost : 0),
                 'quantity'  => 1
             );
 
@@ -169,17 +169,19 @@ class CheckoutController extends Controller
             );
 
             $payload = array(
-                'paymentAmount'     => $paymentAmount,
+                'paymentAmount'     => (int) round(is_numeric($request->grand_total) ? $request->grand_total : 0),
                 'merchantOrderId'   => $merchantOrderId,
                 'productDetails'    => $productDetails,
-                'customerVaName'    => $customerVaName,
-                'email'             => $email,
+                'customerVaName'    => !empty($customerVaName) ? $customerVaName : 'Customer Name',
+                'email'             => $email ?? 'default@example.com',
                 'itemDetails'       => $item_details,
                 'customerDetail'    => $customerDetail,
                 'callbackUrl'       => $callbackUrl,
                 'returnUrl'         => $returnUrl,
                 'expiryPeriod'      => $expiryPeriod
             );
+
+            // dd($payload);
 
             try {
                 // createInvoice Request

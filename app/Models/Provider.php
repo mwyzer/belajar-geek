@@ -21,7 +21,7 @@ class Provider extends Model
         'owner',
         'status',
         'load_balance',
-        'location_id'
+        'location_id',
     ];
 
     protected $casts = [
@@ -40,6 +40,8 @@ class Provider extends Model
      */
     public function location(): BelongsTo
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class, 'location_id');
     }
+
+
 }
