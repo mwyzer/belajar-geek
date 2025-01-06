@@ -25,10 +25,6 @@ export default function Register() {
             email: email,
             password: password,
             password_confirmation: passwordConfirmation
-        }, {
-            onSuccess: () => {
-                router.visit('/verify-otp');
-            }
         });
     }
 

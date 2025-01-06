@@ -81,8 +81,8 @@ Route::prefix('account')->group(function () {
 <<<<<<< HEAD
         //Route resource Location Partners
         Route::resource('/location-partners', \App\Http\Controllers\Account\LocationPartnerController::class, ['as' => 'account'])
-            ->middleware('permission:location-partners.index|location-partners.create|location-partners.edit|location-partners.delete|location-partners.show');
-
+        ->middleware('permission:location-partners.index|location-partners.create|location-partners.edit|location-partners.delete|location-partners.show');
+        
 
 =======
 >>>>>>> parent of 8ca16bb (create providers)
@@ -221,12 +221,3 @@ Route::post('/callback', \App\Http\Controllers\Web\CallbackController::class)->n
  */
 
 Route::post('/search', [\App\Http\Controllers\Web\SearchController::class, 'search'])->name('web.search');
-
-// OTP Routes
-Route::post('/otp/request', [\App\Http\Controllers\Auth\OTPController::class, 'requestOTP'])
-    ->name('otp.request')
-    ->middleware('guest');
-
-Route::get('/verify-otp', function () {
-    return inertia('Auth/VerifyOTP');
-})->name('otp.verify.page')->middleware('guest');

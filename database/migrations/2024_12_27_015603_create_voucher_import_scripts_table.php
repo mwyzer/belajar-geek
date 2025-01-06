@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('voucher_import_scripts', function (Blueprint $table) {
             $table->id();
-            $table->text('script');
-            $table->string('profile_name', 255);
-            $table->text('comment')->nullable();
-            $table->unsignedBigInteger('limit_bytes_total');
             $table->timestamps();
         });
     }

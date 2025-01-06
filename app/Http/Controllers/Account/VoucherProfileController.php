@@ -55,11 +55,11 @@ class VoucherProfileController extends Controller
             'quota_unit' => 'required|string',
             'active_period' => 'required|integer',
             'active_unit' => 'required|string',
-            'stock_warning' => 'required|integer|max:60',
-            'stock_alert' => 'required|integer|max:60',
+            'stock_warning' => 'required|integer',
+            'stock_alert' => 'required|integer',
             'is_published' => 'required|boolean',
             'show_stock' => 'required|boolean',
-            'max_purchase_per_transaction' => 'required|integer|max:60',
+            'max_purchase_per_transaction' => 'required|integer',
             'generate_link' => 'nullable|url',
         ]);
 
