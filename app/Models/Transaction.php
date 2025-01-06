@@ -31,6 +31,7 @@ class Transaction extends Model
         'status',
         'reference',
         'address',
+        "transaction_type_id"
     ];
 
     /**
@@ -71,6 +72,16 @@ class Transaction extends Model
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+  /**
+     * Define the relationship with TransactionType.
+     *
+     * @return BelongsTo
+     */
+    public function transactionType(): BelongsTo
+    {
+        return $this->belongsTo(TransactionType::class, 'transaction_type_id');
     }
 
     /**
