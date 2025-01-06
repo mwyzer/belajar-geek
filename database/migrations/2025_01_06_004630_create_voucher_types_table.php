@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('voucher_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->enum('type', ['limited', 'unlimited']); // Add type column for limited/unlimited
             $table->boolean('is_online')->default(false);
             $table->boolean('is_offline')->default(false);
             $table->timestamps();
