@@ -130,15 +130,15 @@ class CheckoutController extends Controller
                     'color'             => $cart->color,
                     'color_image'       => basename($cart->color_image),
                     'size'              => $cart->size,
-                    'qty'               => (int) $cart->qty,
-                    'price'             => (int) $cart->price,
+                    'qty'               => $cart->qty,
+                    'price'             => $cart->price,
                 ]); 
                 
                 //assign item details
                 $item_details [] = array(
                     'name'      => $cart->product->title,
-                    'price'     => (int) floor ($cart->price),
-                    'quantity'  => (int) $cart->qty
+                    'price'     => $cart->price,
+                    'quantity'  => $cart->qty
                 );
             }
 
@@ -148,7 +148,7 @@ class CheckoutController extends Controller
             //add ongkir to item details
             $ongkir = array(
                 'name'      => 'Shipping Cost : '.$request->courier_name,
-                'price'     => (int) floor(is_numeric($request->courier_cost) ? $request->courier_cost : 0),
+                'price'     => (int) $request->courier_cost,
                 'quantity'  => 1
             );
 
@@ -169,11 +169,11 @@ class CheckoutController extends Controller
             );
 
             $payload = array(
-                'paymentAmount'     => (int) round(is_numeric($request->grand_total) ? $request->grand_total : 0),
+                'paymentAmount'     => $paymentAmount,
                 'merchantOrderId'   => $merchantOrderId,
                 'productDetails'    => $productDetails,
-                'customerVaName'    => !empty($customerVaName) ? $customerVaName : 'Customer Name',
-                'email'             => $email ?? 'default@example.com',
+                'customerVaName'    => $customerVaName,
+                'email'             => $email,
                 'itemDetails'       => $item_details,
                 'customerDetail'    => $customerDetail,
                 'callbackUrl'       => $callbackUrl,

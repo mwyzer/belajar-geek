@@ -78,14 +78,10 @@ Route::prefix('account')->group(function () {
         Route::resource('/provider-locations', \App\Http\Controllers\Account\ProviderLocationController::class, ['as' => 'account'])
             ->middleware('permission:provider-locations.index|provider-locations.create|provider-locations.edit|provider-locations.delete|provider-locations.show');
 
-<<<<<<< HEAD
         //Route resource Location Partners
         Route::resource('/location-partners', \App\Http\Controllers\Account\LocationPartnerController::class, ['as' => 'account'])
         ->middleware('permission:location-partners.index|location-partners.create|location-partners.edit|location-partners.delete|location-partners.show');
         
-
-=======
->>>>>>> parent of 8ca16bb (create providers)
         // Prepaid Provider Resource Routes
         // Route::prefix('prepaid-providers')->group(function () {
         //     Route::get('/', [PrepaidProviderController::class, 'index'])->name('account.prepaid-providers.index');
@@ -143,7 +139,6 @@ Route::prefix('account')->group(function () {
             ->middleware('permission:transactions.user');
     });
 });
-
 /**
  * route home
  */
@@ -215,9 +210,3 @@ Route::post('/checkouts', [\App\Http\Controllers\Web\CheckoutController::class, 
  * route callback
  */
 Route::post('/callback', \App\Http\Controllers\Web\CallbackController::class)->name('web.callback');
-
-/**
- * route post search
- */
-
-Route::post('/search', [\App\Http\Controllers\Web\SearchController::class, 'search'])->name('web.search');
